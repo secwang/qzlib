@@ -77,15 +77,6 @@ int gzDecompress(Byte *zdata, uLong nzdata, Byte *data, uLong *ndata)
     return 0;
 }
 
-template<size_t N>
-std::string convert(char const(&data)[N])
-{
-   return std::string(data, std::find(data, data + N, '\0'));
-}
-
-
-
-
 extern "C" K gunzip(K x)
 {
   if (x->t != KG)
@@ -97,11 +88,15 @@ extern "C" K gunzip(K x)
   const Byte * buf = (Byte *)&kG(x)[0];
 
   unsigned char data[BUFLEN] = {0};
-  uLong datalen = sizeof(data);
+  uLong datalen = sizeof(data) +1;
 
   gzDecompress((Byte *) buf, len, (Byte *) data, &datalen);
 
-  
+//  printf("\t data: %s\n", data);
+//  printf("\t datalen: %ld\n", datalen);
+
+
+
   K uc = kp((char *)data);
   if (! uc)
   {
