@@ -84,8 +84,9 @@ extern "C" K gunzip(K x)
     return krr("expecting a byte");
   }
 
-  const int len = x->n;
+  int len = x->n;
   const Byte * buf = (Byte *)&kG(x)[0];
+  len = len+1;
 
   unsigned char data[BUFLEN] = {0};
   uLong datalen = sizeof(data) +1;
